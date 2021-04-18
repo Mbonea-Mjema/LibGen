@@ -1,62 +1,64 @@
 from libgen_api import LibgenSearch
 from requests import get
 from urllib.parse import quote
-from .Models import Book,LibgenResult
+from .Models import Book, LibgenResult
 import logging
 
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
 logging.getLogger(__name__)
 
 
-
-def search_book(metadata:Book):
+def search_book(metadata: Book):
     lib_search = LibgenSearch()
 
     if metadata.Author:
         filters = {"Author": metadata.Author, "Extension": "pdf"}
-        results=lib_search.search_title_filtered(metadata.Title, filters, exact_match=False)
+        results = lib_search.search_title_filtered(
+            metadata.Title, filters, exact_match=False
+        )
     else:
-        results=lib_search.search_title(metadata.Title)
-    books =map(LibgenResult,results)
+        results = lib_search.search_title(metadata.Title)
+    books = map(LibgenResult, results)
     return books
 
 
-def openlibrary_lookup(book:Book):
+def openlibrary_lookup(book: Book):
 
     base_url = f"https://www.googleapis.com/books/v1/volumes?q={quote(book.Title)}&key=AIzaSyBbphNVAq9wGTsSMQAqRmmKxvTgjllrQNA"
-    results =get(base_url).json()['items']
+    results = get(base_url).json()["items"]
 
-    books =[]
+    books = []
 
     for result in results:
-        _id =result['id']
+        _id = result["id"]
 
-        volume = result['volumeInfo']
-        if not 'imageLinks' in volume or  not 'authors' in volume:
+        volume = result["volumeInfo"]
+        if not "imageLinks" in volume or not "authors" in volume:
             continue
         try:
-            subtitle = volume['subtitle']
+            subtitle = volume["subtitle"]
         except:
-            subtitle = None
+            subtitle = ""
             pass
 
         try:
-            desccription = volume['description']
+            isbn = volume["industryIdentifiers"][0]["identifier"]
         except:
-            desccription = None
-            pass
-        book=Book(id=_id,Title=volume['title'],subtitle=subtitle,Author=','.join(volume['authors']),Cover=volume['imageLinks']['thumbnail'],Year=None,description=desccription)
+            isbn = ""
+
+        book = Book(
+            id=_id,
+            Title=volume["title"],
+            subtitle=subtitle,
+            Author=",".join(volume["authors"]),
+            Cover=f"http://books.google.com/books/content?id={_id}&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+            Year=None,
+            Isbn=isbn,
+        )
+
         books.append(book)
 
-
     return books
-
-
-
-
-
-
