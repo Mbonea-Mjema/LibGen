@@ -1,0 +1,16 @@
+{
+    "name": "Telegram Books Bot",
+    "description": "A Telegram Librarian",
+    "keywords": [
+        "telegram",
+        "python"
+    ],
+    "repository": "https://github.com/Mbonea-Mjema/LibGen",
+    "website": "",
+    "formation": {
+        "worker": {
+            "quantity": 1,
+            "size": "free"
+        }
+    }
+}
