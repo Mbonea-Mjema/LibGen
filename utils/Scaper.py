@@ -19,7 +19,7 @@ def search_book(metadata: Book):
     lib_search = LibgenSearch()
 
     if metadata.Author:
-        # filters =  {"Author": metadata.Author, "Extension": "pdf"}
+        # filters =  {"Author": metadata.Author, "}
         filters = {'Pages':metadata.Pages,'Language': 'English'}
 
         results = lib_search.search_title_filtered(
@@ -27,6 +27,9 @@ def search_book(metadata: Book):
         )
     else:
         results = lib_search.search_title(metadata.Title)
+    for i in results:
+        if i['Extension']=='mobi':
+            results.pop(i)
     pprint.pprint(results)
     books = list(map(LibgenResult, results))
 
