@@ -2,6 +2,7 @@ from dataclasses import dataclass, asdict
 from pyrogram.types import *
 from .DbModels import *
 from uuid import uuid4
+from urllib.parse import quote
 import logging
 
 logging.basicConfig(
@@ -20,6 +21,7 @@ class Book:
     Cover: str = ""
     Year: str = ""
     Isbn: str = ""
+    Pages:str=''
 
 
 class LibgenResult(Book):
@@ -31,6 +33,7 @@ class LibgenResult(Book):
         self.Size = result["Size"]
         self.Type = result["Extension"]
         self.Link = result["Mirror_1"]
+        self.Pages =result['Pages']
 
 
 def message_gen(book: Book):
@@ -59,7 +62,7 @@ class SearchResult:
             reply_markup=reply_markup,
         )
 
-        result=session.query(Library).filter_by(id=book.id).first()
+        result = session.query(Library).filter_by(id=book.id).first()
         if result:
             pass
         else:

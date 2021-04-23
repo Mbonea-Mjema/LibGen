@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, relationship
 from dataclasses import dataclass
 
+
 @dataclass
 class Book:
     id: str = ""
@@ -13,6 +14,7 @@ class Book:
     Cover: str = ""
     Year: str = ""
     Isbn: str = ""
+    Pages:str=''
 
 
 Base = declarative_base()
@@ -30,11 +32,16 @@ class Library(Base):
     Subtitle = Column("Subtitle", String)
     Author = Column("Author", String)
     Isbn = Column("Isbn", String, nullable=True)
-
+    Pages = Column("Pages", String, nullable=True)
+    Year =Column("Year", String, nullable=True)
     def __init__(self, book: Book):
         self.Title = book.Title
         self.id = book.id
         self.Subtitle = Book.subtitle
         self.Author = book.Author
         self.Isbn = book.Isbn
+        self.Pages = book.Pages
+        self.Year = book.Year
+
+
 Base.metadata.create_all(engine)

@@ -1,7 +1,11 @@
+import pprint
+
 from libgen_api import LibgenSearch
 from requests import get
+
 from urllib.parse import quote
 from .Models import Book, LibgenResult
+from .strings_ import *
 import logging
 
 logging.basicConfig(
@@ -15,19 +19,23 @@ def search_book(metadata: Book):
     lib_search = LibgenSearch()
 
     if metadata.Author:
-        filters = {"Author": metadata.Author, "Extension": "pdf"}
+        # filters =  {"Author": metadata.Author, "Extension": "pdf"}
+        filters = {'Pages':metadata.Pages,"Extension": "pdf",'Language': 'English'}
+
         results = lib_search.search_title_filtered(
-            metadata.Title, filters, exact_match=False
+            f'{metadata.Title}', filters, exact_match=False
         )
     else:
         results = lib_search.search_title(metadata.Title)
-    books = map(LibgenResult, results)
+    pprint.pprint(results)
+    books = list(map(LibgenResult, results))
+
     return books
 
 
 def openlibrary_lookup(book: Book):
 
-    base_url = f"https://www.googleapis.com/books/v1/volumes?q={quote(book.Title)}&key=AIzaSyBbphNVAq9wGTsSMQAqRmmKxvTgjllrQNA"
+    base_url = books_api_call.format(quote(book.Title))
     results = get(base_url).json()["items"]
 
     books = []
@@ -36,6 +44,10 @@ def openlibrary_lookup(book: Book):
         _id = result["id"]
 
         volume = result["volumeInfo"]
+        try:
+            volume['pageCount']
+        except:
+            continue
         if not "imageLinks" in volume or not "authors" in volume:
             continue
         try:
@@ -54,9 +66,10 @@ def openlibrary_lookup(book: Book):
             Title=volume["title"],
             subtitle=subtitle,
             Author=",".join(volume["authors"]),
-            Cover=f"http://books.google.com/books/content?id={_id}&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+            Cover=books_api_image.format(_id),
             Year=None,
             Isbn=isbn,
+            Pages=str(volume['pageCount'])
         )
 
         books.append(book)
