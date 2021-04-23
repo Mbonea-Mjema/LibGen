@@ -46,7 +46,7 @@ async def handle_callback(client: Client, callback_query: CallbackQuery):
         await callback_query.edit_message_text('Downloading the book')
         path=await download_book(books[0].Link,file_name=f'{books[0].Title}',extension=books[0].Type,id=callback_query.data)
         await client.send_photo(chat_id=-1001347315127,photo=books_api_image.format(book_result.id),caption=message_gen(book_result))
-        message=await client.send_document(chat_id=-1001347315127,disable_notification=True,file_name=f'{book_result.Title}.pdf',document=path,caption='@testlib34')
+        message=await client.send_document(chat_id=-1001347315127,disable_notification=True,file_name=f'{book_result.Title}.{books[0].Type}',document=path,caption='@testlib34')
         await callback_query.edit_message_text(book_result.Title,reply_markup=InlineKeyboardMarkup(
             [[InlineKeyboardButton(url=channel_message_link.format(message.message_id),text=book_result.Title)]]
         )

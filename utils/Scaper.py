@@ -20,7 +20,7 @@ def search_book(metadata: Book):
 
     if metadata.Author:
         # filters =  {"Author": metadata.Author, "Extension": "pdf"}
-        filters = {'Pages':metadata.Pages,"Extension": "pdf",'Language': 'English'}
+        filters = {'Pages':metadata.Pages,'Language': 'English'}
 
         results = lib_search.search_title_filtered(
             f'{metadata.Title}', filters, exact_match=False
