@@ -9,6 +9,14 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="root@3.66.221.169:57412">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/workspace/aria2" local="$PROJECT_DIR$" />
+            <mapping />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
   </component>
 </project>
