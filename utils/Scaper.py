@@ -17,6 +17,7 @@ logging.getLogger(__name__)
 
 def find_best_match(book: Book, results):
     scores = []
+    print(book)
     type_filter = "pdf,epub"
     if "computer" in book.Categories:
         type_filter = "pdf"
@@ -30,6 +31,7 @@ def find_best_match(book: Book, results):
         temp_scores.append(fuzz.ratio(book.Author, result["Author"]) / 100)
         temp_scores.append(fuzz.ratio(book.Title, result["Title"]) / 100)
         temp_scores.append(0.5 * fuzz.ratio(book.Pages, result["Pages"]) / 100)
+        print('publisher=',book.Publisher,result["Publisher"])
         temp_scores.append(0.8 * fuzz.ratio(book.Publisher, result["Publisher"]) / 100)
         for score in temp_scores:
             if score == 0:
@@ -39,7 +41,7 @@ def find_best_match(book: Book, results):
     pprint.pprint(scores)
     if scores:
         best_score = max(scores)
-        if best_score > 0.04:
+        if best_score > 0.1:
             print(best_score)
             return scores.index(best_score)
 

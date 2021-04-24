@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, relationship
 from dataclasses import dataclass
-
+from dataclasses import dataclass, asdict
 
 @dataclass
 class Book:
@@ -37,7 +37,7 @@ class Library(Base):
     Pages = Column("Pages", String, nullable=True)
     Year = Column("Year", String, nullable=True)
     Publisher = Column("Publisher", String, nullable=True)
-    Categories = Column("Publisher", String, nullable=True)
+    Categories = Column("Categories", String, nullable=True)
 
     def __init__(self, book: Book):
         self.Title = book.Title
@@ -48,7 +48,9 @@ class Library(Base):
         self.Pages = book.Pages
         self.Year = book.Year
         self.Publisher = book.Publisher
-        self.Categories = book.Publisher
+        self.Categories = book.Categories
+    def __str__(self):
+        return f'{self.Author} {self.Title} {self.Categories} {self.id}'
 
 
 Base.metadata.create_all(engine)
