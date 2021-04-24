@@ -21,7 +21,9 @@ class Book:
     Cover: str = ""
     Year: str = ""
     Isbn: str = ""
-    Pages:str=''
+    Pages: str = ""
+    Publisher: str = ""
+    Categories: str = ""
 
 
 class LibgenResult(Book):
@@ -33,7 +35,8 @@ class LibgenResult(Book):
         self.Size = result["Size"]
         self.Type = result["Extension"]
         self.Link = result["Mirror_1"]
-        self.Pages =result['Pages']
+        self.Pages = result["Pages"]
+        self.Publisher = result["Publisher"]
 
 
 def message_gen(book: Book):

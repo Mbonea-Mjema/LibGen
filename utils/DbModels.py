@@ -14,7 +14,9 @@ class Book:
     Cover: str = ""
     Year: str = ""
     Isbn: str = ""
-    Pages:str=''
+    Pages: str = ""
+    Publisher: str = ""
+    Categories: str = ""
 
 
 Base = declarative_base()
@@ -33,7 +35,10 @@ class Library(Base):
     Author = Column("Author", String)
     Isbn = Column("Isbn", String, nullable=True)
     Pages = Column("Pages", String, nullable=True)
-    Year =Column("Year", String, nullable=True)
+    Year = Column("Year", String, nullable=True)
+    Publisher = Column("Publisher", String, nullable=True)
+    Categories = Column("Publisher", String, nullable=True)
+
     def __init__(self, book: Book):
         self.Title = book.Title
         self.id = book.id
@@ -42,6 +47,8 @@ class Library(Base):
         self.Isbn = book.Isbn
         self.Pages = book.Pages
         self.Year = book.Year
+        self.Publisher = book.Publisher
+        self.Categories = book.Publisher
 
 
 Base.metadata.create_all(engine)

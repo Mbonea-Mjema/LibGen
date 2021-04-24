@@ -2,7 +2,7 @@ import pprint
 
 from libgen_api import LibgenSearch
 from requests import get
-
+from fuzzywuzzy import fuzz
 from urllib.parse import quote
 from .Models import Book, LibgenResult
 from .strings_ import *
@@ -15,25 +15,56 @@ logging.basicConfig(
 logging.getLogger(__name__)
 
 
+def find_best_match(book: Book, results):
+    scores = []
+    type_filter = "pdf,epub"
+    if "computer" in book.Categories:
+        type_filter = "pdf"
+    for result in results:
+        temp = 1.0
+        temp_scores = []
+        if not result["Extension"] in type_filter:
+            scores.append(0)
+            continue
+
+        temp_scores.append(fuzz.ratio(book.Author, result["Author"]) / 100)
+        temp_scores.append(fuzz.ratio(book.Title, result["Title"]) / 100)
+        temp_scores.append(0.5 * fuzz.ratio(book.Pages, result["Pages"]) / 100)
+        temp_scores.append(0.8 * fuzz.ratio(book.Publisher, result["Publisher"]) / 100)
+        for score in temp_scores:
+            if score == 0:
+                continue
+            temp *= score
+        scores.append(temp)
+    pprint.pprint(scores)
+    if scores:
+        best_score = max(scores)
+        if best_score > 0.04:
+            print(best_score)
+            return scores.index(best_score)
+
+
 def search_book(metadata: Book):
     lib_search = LibgenSearch()
 
     if metadata.Author:
         # filters =  {"Author": metadata.Author, "}
-        filters = {'Pages':metadata.Pages,'Language': 'English'}
+        filters = {"Language": "English"}
 
         results = lib_search.search_title_filtered(
-            f'{metadata.Title}', filters, exact_match=False
+            f"{metadata.Title}", filters, exact_match=False
         )
     else:
         results = lib_search.search_title(metadata.Title)
-    for i in results:
-        if i['Extension']=='mobi':
-            results.pop(i)
     pprint.pprint(results)
-    books = list(map(LibgenResult, results))
+    best = find_best_match(metadata, results)
+    print("done?")
+    if best != None:
+        best = results[best]
 
-    return books
+        best = LibgenResult(best)
+        print(best)
+        return best
 
 
 def openlibrary_lookup(book: Book):
@@ -48,15 +79,24 @@ def openlibrary_lookup(book: Book):
 
         volume = result["volumeInfo"]
         try:
-            volume['pageCount']
+            volume["pageCount"]
         except:
             continue
+        try:
+            categories = volume["categories"][0]
+        except:
+            categories = ""
         if not "imageLinks" in volume or not "authors" in volume:
             continue
         try:
             subtitle = volume["subtitle"]
         except:
             subtitle = ""
+            pass
+        try:
+            publisher = volume["publisher"]
+        except:
+            continue
             pass
 
         try:
@@ -72,7 +112,9 @@ def openlibrary_lookup(book: Book):
             Cover=books_api_image.format(_id),
             Year=None,
             Isbn=isbn,
-            Pages=str(volume['pageCount'])
+            Pages=str(volume["pageCount"]),
+            Publisher=publisher,
+            Categories=categories,
         )
 
         books.append(book)
