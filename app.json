@@ -12,5 +12,11 @@
             "quantity": 1,
             "size": "free"
         }
-    }
+    },
+    "addons": [
+        {
+        "plan": "searchly:starter"
+        }
+  ]
+
 }
