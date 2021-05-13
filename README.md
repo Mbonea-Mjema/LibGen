@@ -1,7 +1,7 @@
 # _Telegram Books  🤖 📚_
 
 
-`###### How to create the bot:`
+`How to create the bot:`
 
 1. Create a telegram bot
 2. Create a telegram create a telegram channel
