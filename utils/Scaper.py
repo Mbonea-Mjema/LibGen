@@ -19,7 +19,7 @@ def find_best_match(book: Book, results):
     scores = []
     print(book)
     type_filter = "pdf,epub"
-    if "computer" in book.Categories:
+    if "Computer" in book.Categories:
         type_filter = "pdf"
     for result in results:
         temp = 1.0
@@ -60,7 +60,6 @@ def search_book(metadata: Book):
         results = lib_search.search_title(metadata.Title)
     pprint.pprint(results)
     best = find_best_match(metadata, results)
-    print("done?")
     if best != None:
         best = results[best]
 
