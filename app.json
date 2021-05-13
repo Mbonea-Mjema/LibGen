@@ -15,7 +15,7 @@
     },
     "addons": [
         {
-        "plan": "SearchBox Elasticsearch:starter"
+        "plan": "SearchBox:starter"
         }
   ]
 
