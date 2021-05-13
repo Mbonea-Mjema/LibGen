@@ -8,8 +8,7 @@
 3. Add your bot to the channel 
 4. Get the telegram API_ID and API_HASH
 5. Get the google books api (optional)
-6. Click the Deploy to heroku button
-
+6. Click the Deploy to heroku button to deploy to heroku.
 
 `Features`
 
