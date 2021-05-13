@@ -15,7 +15,7 @@
     },
     "addons": [
         {
-        "plan": "SearchBox:starter"
+        "plan": "searchbox:starter"
         }
   ]
 
