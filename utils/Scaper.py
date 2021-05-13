@@ -36,12 +36,12 @@ def find_best_match(book: Book, results):
         for score in temp_scores:
             if score == 0:
                 continue
-            temp *= score
+            temp += score
         scores.append(temp)
     pprint.pprint(scores)
     if scores:
         best_score = max(scores)
-        if best_score > 0.051:
+        if best_score > 1:
             print(best_score)
             return scores.index(best_score)
 
