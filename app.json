@@ -15,8 +15,10 @@
     },
     "addons": [
         {
-        "plan": "searchly:starter"
+        "plan": "SearchBox Elasticsearch:starter"
         }
   ]
 
 }
+
+
