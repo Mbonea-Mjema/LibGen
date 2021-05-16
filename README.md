@@ -1,18 +1,21 @@
 # _Telegram Books  🤖 📚_
 
 
-`How to create the bot:`
-1. Create a telegram bot
-2. Create a telegram create a telegram channel
-3. Add your bot to the channel 
-4. Get the telegram API_ID and API_HASH
-5. Get the google books api (optional)
-6. Click the Deploy to heroku button to deploy to heroku.
+##### Mandatory Variables
+
+* `TG_BOT_TOKEN`: Create a bot using [@BotFather](https://telegram.dog/BotFather), and get the Telegram API token.
+
+* `APP_ID`
+* `API_HASH`: Get these two values from [my.telegram.org/apps](https://my.telegram.org/apps).
+ 
+* `TG_CHANNEL`: The channel were the books will be sent, eg 'testlib34'
+
 
 `Features`
-1. Inline books search with search as you type (powered by ElasticSearch).
-2. Asynchronous book downloads.
-3. Custom book collection. 
+- [ ] Inline books search with search as you type (coming soon) (powered by ElasticSearch) .
+- [x] Asynchronous book downloads.
+- [ ] Custom book collection for each user
+- [ ] Database 
 
 
 

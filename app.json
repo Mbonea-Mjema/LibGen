@@ -13,11 +13,6 @@
             "size": "free"
         }
     },
-    "addons": [
-        {
-        "plan": "searchbox:starter"
-        }
-  ],
   "env": {
     "API_ID": {
       "description": "Telegram API token"
