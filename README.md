@@ -11,11 +11,11 @@
 * `TG_CHANNEL`: The channel were the books will be sent, eg 'testlib34'
 
 `Features`
-- [ ] Inline books search with search as you type (coming soon) (powered by ElasticSearch) .
+- [ ] Inline books search with search as you type (coming soon) (Using ElasticSearch) .
 - [x] Asynchronous book downloads.
-- [ ] Custom book collection for each user
-- [ ] Database 
-
+- [ ] Custom book collection for each user (Using ElasticSearch)
+- [ ] Database  (Using ElasticSearch)
+- [ ] Interactive chat dialog
 
 
 
