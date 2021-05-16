@@ -21,7 +21,6 @@
   "env": {
     "API_TOKEN": {
       "description": "Telegram API token",
-      "generator": "secret"
     },
     "API_HASH": {
       "description": "Telegram API HASH"
