@@ -20,7 +20,7 @@
   ],
   "env": {
     "API_TOKEN": {
-      "description": "Telegram API token",
+      "description": "Telegram API token"
     },
     "API_HASH": {
       "description": "Telegram API HASH"
