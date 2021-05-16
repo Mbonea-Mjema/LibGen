@@ -32,7 +32,7 @@
       "books_api": {
       "description": "Google Books api token"
     },
-      "telegram channel": {
+      "TG_channel": {
       "description": "The channel were the bot will upload the files"
     }
 
