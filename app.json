@@ -17,7 +17,27 @@
         {
         "plan": "searchbox:starter"
         }
-  ]
+  ],
+  "env": {
+    "API_TOKEN": {
+      "description": "Telegram API token",
+      "generator": "secret"
+    },
+    "API_HASH": {
+      "description": "Telegram API HASH"
+    },
+      "BOT_TOKEN": {
+      "description": "Telegram BOT TOKEN"
+    },
+
+      "books_api": {
+      "description": "Google Books api token"
+    },
+      "telegram channel": {
+      "description": "The channel were the bot will upload the files"
+    }
+
+}
 
 }
 

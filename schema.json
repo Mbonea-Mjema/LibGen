@@ -1,0 +1,66 @@
+{
+    "settings": {
+        "analysis": {
+            "filter": {
+                "autocomplete_filter": {
+                    "type": "edge_ngram",
+                    "min_gram": 1,
+                    "max_gram": 20
+                }
+            },
+            "analyzer": {
+                "autocomplete": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "autocomplete_filter"]
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "suggest": {"type": "completion"},
+            "author": {
+                "type": "text",
+                "fields": {"keyword": {"type": "keyword", "ignore_above": 256}},
+                "analyzer": "autocomplete"
+            },
+            "imageUrl": {
+                "type": "text",
+                "index": false,
+                "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+            },
+            "book_id": {
+                "type": "text",
+                "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+            },
+            "isbn": {
+                "type": "text",
+                "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+            },
+            "rating": {"type": "float"},
+            "title": {
+                "type": "text",
+                "fields": {"keyword": {"type": "keyword", "ignore_above": 256}},
+                "analyzer": "autocomplete"
+            },
+            "type": {
+                "type": "text",
+                "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+            },
+            "year": {"type": "long"}
+        }
+    }
+}
+
+//{
+//             "author": "superman",
+//            "imageUrl": "http:some",
+//            "book_id": "12345",
+//            "isbn": "123123",
+//            "rating": 5.25,
+//            "title": "Avengers suck",
+//            "type": "genres",
+//            "year": 1202
+//        }
+//}
