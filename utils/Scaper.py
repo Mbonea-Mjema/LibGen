@@ -42,7 +42,7 @@ def find_best_match(book: Book, results):
     pprint.pprint(scores)
     if scores:
         best_score = max(scores)
-        if best_score > 1:
+        if best_score > 1.9:
             print(best_score)
             return scores.index(best_score)
 
