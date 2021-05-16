@@ -19,7 +19,7 @@
         }
   ],
   "env": {
-    "API_TOKEN": {
+    "API_ID": {
       "description": "Telegram API token"
     },
     "API_HASH": {
@@ -32,7 +32,7 @@
       "books_api": {
       "description": "Google Books api token"
     },
-      "TG_channel": {
+      "TG_CHANNEL": {
       "description": "The channel were the bot will upload the files"
     }
 
