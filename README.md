@@ -7,7 +7,7 @@
 
 * `APP_ID`
 * `API_HASH`: Get these two values from [my.telegram.org/apps](https://my.telegram.org/apps).
- 
+* `books_api` Get the [Google books api key](https://console.cloud.google.com/apis/credentials) 
 * `TG_CHANNEL`: The channel were the books will be sent, eg 'testlib34'
 
 `Features`
