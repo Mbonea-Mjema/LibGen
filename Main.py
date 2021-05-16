@@ -2,7 +2,7 @@ from pyrogram import Client
 import  os
 
 books_bot = Client(
-    'books_bot'
+    session_name='books_bot',
     bot_token=os.environ["BOT_TOKEN"],
     api_id=os.environ["API_ID"],
     api_hash=os.environ["API_HASH"],
