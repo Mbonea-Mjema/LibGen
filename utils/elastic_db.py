@@ -2,7 +2,7 @@ from elasticsearch import AsyncElasticsearch
 from utils.Scaper import *
 from pyrogram.types import *
 from os import environ
-es = AsyncElasticsearch()
+es = AsyncElasticsearch( hosts=[environ['elastic_url']])
 
 
 def mapper(query:Book):
