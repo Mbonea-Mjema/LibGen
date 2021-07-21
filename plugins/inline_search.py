@@ -1,6 +1,7 @@
 from pyrogram.types import *
 from pyrogram import Client
 from utils.Models import *
+from utils.elastic_db import *
 from utils.Scaper import *
 from utils.downloader import *
 import logging
@@ -48,7 +49,9 @@ async def handle_callback(client: Client, callback_query: CallbackQuery):
         await callback_query.edit_message_text(book_result.Title,reply_markup=InlineKeyboardMarkup(
             [[InlineKeyboardButton(url=channel_message_link.format(message.message_id),text=book_result.Title)]]
         )
-                                               )
+                                      )
+
+        await  add_2index(query=books, message=message)
     else:
         await callback_query.edit_message_text('Could not find this book 🤷‍♂️')
 

@@ -1,5 +1,6 @@
 aiohttp
 bs4
+elasticsearch[async]
 pyrogram
 fuzzywuzzy[speedup]
 libgen-api

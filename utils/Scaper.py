@@ -31,7 +31,6 @@ def find_best_match(book: Book, results):
         temp_scores.append(fuzz.ratio(book.Author, result["Author"]) / 100)
         temp_scores.append(fuzz.ratio(book.Title, result["Title"]) / 100)
         temp_scores.append(0.5 * fuzz.ratio(book.Pages, result["Pages"]) / 100)
-        print('publisher=',book.Publisher,result["Publisher"])
         temp_scores.append(0.8 * fuzz.ratio(book.Publisher, result["Publisher"]) / 100)
         temp =0
         for score in temp_scores:
