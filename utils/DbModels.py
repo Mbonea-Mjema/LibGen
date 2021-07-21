@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker, relationship
 from dataclasses import dataclass
 from dataclasses import dataclass, asdict
 
+
 @dataclass
 class Book:
     id: str = ""
@@ -49,8 +50,9 @@ class Library(Base):
         self.Year = book.Year
         self.Publisher = book.Publisher
         self.Categories = book.Categories
+
     def __str__(self):
-        return f'{self.Author} {self.Title} {self.Categories} {self.id}'
+        return f"{self.Author} {self.Title} {self.Categories} {self.id}"
 
 
 Base.metadata.create_all(engine)
