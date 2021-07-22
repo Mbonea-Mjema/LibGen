@@ -2,6 +2,7 @@ aiohttp
 bs4
 elasticsearch[async]
 pyrogram
+python-dotenv
 fuzzywuzzy[speedup]
 libgen-api
 SQLAlchemy

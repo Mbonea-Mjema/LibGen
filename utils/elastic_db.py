@@ -1,20 +1,22 @@
+import pprint
+
 from elasticsearch import AsyncElasticsearch
-from utils.Scaper import *
+from utils.DbModels import *
 from pyrogram.types import *
 from os import environ
 es = AsyncElasticsearch( hosts=[environ['elastic_url']])
 
 
-def mapper(query:Book):
+def mapper(query:Library):
     return     {
         "book_id": query.id,
         "title": query.Title,
-        "subtitle": query.subtitle,
+        "subtitle": query.Subtitle,
         "isbn": query.Isbn,
         "pages": query.Pages,
         "year": query.Year,
         "publisher": query.Publisher,
-        "categories": query.Publisher
+        "categories": query.Categories
     }
 
 
@@ -37,18 +39,26 @@ async  def book_lookup(query:Book):
                 "query": query.Title,
                 "type": "bool_prefix",
                 "fields": [
-                    "title",
-                    "title._20gram",
-                    "title._2gram"
+                    'book_id'
                 ],
-                "fuzzy_transpositions": "true"
-                , "fuzziness": 1
+            }
+        }
+    }
+    print(query.id)
+    body={
+        "query": {
+            "term": {
+                "book_id": {
+                    "value": query.id
+                }
             }
         }
     }
     resp = await es.search(
-        index="documents",
+        index=environ['elastic_index'],
         body=body,
         size=10,
     )
-    print(resp)
+    pprint.pprint(resp)
+    if resp['hits']['total']['value']> 0:
+        return resp['hits']['hits'][0]

@@ -1,6 +1,7 @@
 from pyrogram import Client
 import  os
-
+from dotenv import load_dotenv
+load_dotenv()
 books_bot = Client(
     session_name='books_bot',
     bot_token=os.environ["BOT_TOKEN"],

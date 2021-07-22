@@ -49,7 +49,7 @@ def find_best_match(book: Book, results):
 
 def search_book(metadata: Book):
     lib_search = LibgenSearch()
-
+    logging.info(metadata)
     if metadata.Author:
         # filters =  {"Author": metadata.Author, "}
         filters = {"Language": "English"}

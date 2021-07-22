@@ -34,26 +34,32 @@ async def process_chosen_result(client: Client, choice: ChosenInlineResult):
 
 @Client.on_callback_query()
 async def handle_callback(client: Client, callback_query: CallbackQuery):
-    print('this')
+    #
     book_result:Library=session.query(Library).filter_by(id=callback_query.data).first()
-    books=search_book(book_result)
 
-    if books:
-        msg = ''
-        msg += f'{books.Title}\n'
-        await callback_query.answer(text='Downloading the book')
-        await callback_query.edit_message_text('Downloading the book')
-        path=await download_book(books.Link,file_name=f'{books.Title}',extension=books.Type,id=callback_query.data)
-        await client.send_photo(chat_id=-1001347315127,photo=books_api_image.format(book_result.id),caption=message_gen(book_result))
-        message=await client.send_document(chat_id=-1001347315127,disable_notification=True,file_name=f'{book_result.Title}.{books.Type}',document=path,caption='@testlib34')
+    response =await book_lookup(book_result)
+    if response!= None:
         await callback_query.edit_message_text(book_result.Title,reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton(url=channel_message_link.format(message.message_id),text=book_result.Title)]]
-        )
-                                      )
-
-        await  add_2index(query=books, message=message)
+            [[InlineKeyboardButton(url=channel_message_link.format(response['_id']),text=book_result.Title)]]
+        ))
     else:
-        await callback_query.edit_message_text('Could not find this book 🤷‍♂️')
+        books=search_book(book_result)
+        if books:
+            msg = ''
+            msg += f'{books.Title}\n'
+            await callback_query.answer(text='Downloading the book')
+            await callback_query.edit_message_text('Downloading the book')
+            path=await download_book(books.Link,file_name=f'{books.Title}',extension=books.Type,id=callback_query.data)
+            await client.send_photo(chat_id=-1001347315127,photo=books_api_image.format(book_result.id),caption=message_gen(book_result))
+            message=await client.send_document(chat_id=-1001347315127,disable_notification=True,file_name=f'{book_result.Title}.{books.Type}',document=path,caption='@testlib34')
+            await callback_query.edit_message_text(book_result.Title,reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton(url=channel_message_link.format(message.message_id),text=book_result.Title)]]
+            )
+                                          )
+
+            await  add_2index(query=book_result, message=message)
+        else:
+            await callback_query.edit_message_text('Could not find this book 🤷‍♂️')
 
 
 
