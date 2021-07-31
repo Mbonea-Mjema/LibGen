@@ -36,7 +36,8 @@ async  def api_query(query):
             try:
                 isbns =[]
                 for book in data["docs"]:
-                    isbns.append(book['isbn'])
+                    if book['isbn']:
+                        isbns.extend(book['isbn'])
                 return isbns
             except:
                 return  None
