@@ -64,7 +64,7 @@ async  def search_book(metadata: Book,telegram_log:CallbackQuery):
     pprint.pprint(results)
     best = find_best_match(metadata, results)
     while not best:
-        telegram_log.answer("Performing advanced query 💪")
+        await telegram_log.answer("Performing advanced query 💪")
         isbns=await alternative_search(f"{metadata.Title}")
         results =[]
         for isbn in isbns:
