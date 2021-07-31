@@ -44,7 +44,7 @@ async def handle_callback(client: Client, callback_query: CallbackQuery):
             [[InlineKeyboardButton(url=channel_message_link.format(response['_id']),text=book_result.Title)]]
         ))
     else:
-        books=await search_book(book_result,callback_query=callback_query)
+        books=await search_book(book_result,telegram_log=callback_query)
         if books:
             msg = ''
             msg += f'{books.Title}\n'
