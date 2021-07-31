@@ -60,7 +60,7 @@ async def handle_callback(client: Client, callback_query: CallbackQuery):
             await  add_2index(query=book_result, message=message)
         else:
             await callback_query.edit_message_text('Could not find this book 🤷‍♂️')
-            callback_query.edit_message_text()
+
 
 
 
