@@ -3,6 +3,7 @@ import pprint
 from libgen_api import LibgenSearch
 from requests import get
 from fuzzywuzzy import fuzz
+from .downloader import api_query
 from urllib.parse import quote
 from .Models import Book, LibgenResult
 from .strings_ import *
@@ -47,10 +48,10 @@ def find_best_match(book: Book, results):
             return scores.index(best_score)
 
 
-def search_book(metadata: Book):
+async  def search_book(metadata: Book):
     lib_search = LibgenSearch()
     logging.info(metadata)
-
+    best =[]
     if metadata.Author:
         #filters =  {"Author": metadata.Author}
         filters = {"Language": "English"}
@@ -63,7 +64,10 @@ def search_book(metadata: Book):
     pprint.pprint(results)
     best = find_best_match(metadata, results)
     while not best:
-        results = lib_search.search_title(metadata.Isbn)
+        isbns=await alternative_search(f"{metadata.Title} {metadata.Author}")
+        results =[]
+        for isbn in isbns:
+            results .extend(lib_search.search_title(isbn))
         pprint.pprint(results)
         best = find_best_match(metadata, results)
         break
@@ -130,3 +134,13 @@ def openlibrary_lookup(book: Book):
         books.append(book)
 
     return books
+
+
+
+def alternative_search(query):
+    data=api_query(query)
+    return  data
+
+
+
+

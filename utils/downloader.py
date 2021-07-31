@@ -1,6 +1,7 @@
 from aiohttp import ClientSession
 from bs4 import BeautifulSoup
-import os
+import os,urllib
+
 from uuid import uuid4
 
 
@@ -22,3 +23,15 @@ async def download_book(url, file_name, extension, id):
                     fd.write(data)
 
     return file_path
+
+
+async  def api_query(query):
+    query=urllib.parse.quote_plus(query)
+    url = f"https://openlibrary.org/search.json?q={query}"
+    async with ClientSession() as session:
+
+        async with session.get(url) as response:
+            data = await response.json()
+        if data['docs'] != None:
+            return data["docs"][0]["isbn"]
+

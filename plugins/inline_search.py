@@ -35,6 +35,7 @@ async def process_chosen_result(client: Client, choice: ChosenInlineResult):
 @Client.on_callback_query()
 async def handle_callback(client: Client, callback_query: CallbackQuery):
     #
+    await callback_query.answer(text='Looking for the book')
     book_result:Library=session.query(Library).filter_by(id=callback_query.data).first()
 
     response =await book_lookup(book_result)
@@ -43,7 +44,7 @@ async def handle_callback(client: Client, callback_query: CallbackQuery):
             [[InlineKeyboardButton(url=channel_message_link.format(response['_id']),text=book_result.Title)]]
         ))
     else:
-        books=search_book(book_result)
+        books=await search_book(book_result)
         if books:
             msg = ''
             msg += f'{books.Title}\n'
