@@ -50,6 +50,7 @@ def find_best_match(book: Book, results):
 def search_book(metadata: Book):
     lib_search = LibgenSearch()
     logging.info(metadata)
+
     if metadata.Author:
         # filters =  {"Author": metadata.Author, "}
         filters = {"Language": "English"}
@@ -61,12 +62,19 @@ def search_book(metadata: Book):
         results = lib_search.search_title(metadata.Title)
     pprint.pprint(results)
     best = find_best_match(metadata, results)
+    while not best:
+        results = lib_search.search_title(metadata.Isbn)
+        pprint.pprint(results)
+        best = find_best_match(metadata, results)
+        break
+
     if best != None:
         best = results[best]
 
         best = LibgenResult(best)
         print(best)
         return best
+
 
 
 def openlibrary_lookup(book: Book):
