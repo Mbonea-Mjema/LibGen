@@ -33,5 +33,8 @@ async  def api_query(query):
         async with session.get(url) as response:
             data = await response.json()
         if data['docs'] != None:
-            return data["docs"][0]["isbn"]
+            try:
+                return data["docs"][0]["isbn"]
+            except:
+                return  None
 
