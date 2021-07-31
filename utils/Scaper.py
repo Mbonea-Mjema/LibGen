@@ -1,5 +1,5 @@
 import pprint
-
+from pyrogram.types import *
 from libgen_api import LibgenSearch
 from requests import get
 from fuzzywuzzy import fuzz
@@ -43,12 +43,12 @@ def find_best_match(book: Book, results):
     pprint.pprint(scores)
     if scores:
         best_score = max(scores)
-        if best_score > 1.9:
+        if best_score > 2:
             print(best_score)
             return scores.index(best_score)
 
 
-async  def search_book(metadata: Book):
+async  def search_book(metadata: Book,telegram_log:CallbackQuery):
     lib_search = LibgenSearch()
     logging.info(metadata)
     best =[]
@@ -64,6 +64,7 @@ async  def search_book(metadata: Book):
     pprint.pprint(results)
     best = find_best_match(metadata, results)
     while not best:
+        telegram_log.answer("Performing advanced query 💪")
         isbns=await alternative_search(f"{metadata.Title} {metadata.Author}")
         results =[]
         for isbn in isbns:

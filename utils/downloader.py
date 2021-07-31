@@ -34,7 +34,10 @@ async  def api_query(query):
             data = await response.json()
         if data['docs'] != None:
             try:
-                return data["docs"][0]["isbn"]
+                isbns =[]
+                for book in data["docs"]:
+                    isbns.append(book['isbn'])
+                return isbns
             except:
                 return  None
 
