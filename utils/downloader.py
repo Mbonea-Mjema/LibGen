@@ -25,9 +25,10 @@ async def download_book(url, file_name, extension, id):
     return file_path
 
 
-async  def api_query(query):
-    query=urllib.parse.quote_plus(query)
-    url = f"https://openlibrary.org/search.json?q={query}"
+async  def api_query(title,author):
+    title=urllib.parse.quote_plus(title)
+    author=urllib.parse.quote_plus(author)
+    url = f"https://openlibrary.org/search.json?title={title}&author={author}"
     async with ClientSession() as session:
 
         async with session.get(url) as response:
@@ -35,9 +36,14 @@ async  def api_query(query):
         if data['docs'] != None:
             try:
                 isbns =[]
-                for book in data["docs"]:
+
+                for book in data["docs"][:3]:
+                    try:
+                        print(book['title'],book['isbn'])
+                    except:
+                        continue
                     if book['isbn']:
-                        isbns.extend(book['isbn'])
+                        isbns.extend(book['isbn'][:3])
                 return isbns
             except:
                 return  None

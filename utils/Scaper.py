@@ -43,7 +43,7 @@ def find_best_match(book: Book, results):
     pprint.pprint(scores)
     if scores:
         best_score = max(scores)
-        if best_score > 2:
+        if best_score > 1.8:
             print(best_score)
             return scores.index(best_score)
 
@@ -51,7 +51,6 @@ def find_best_match(book: Book, results):
 async  def search_book(metadata: Book,telegram_log:CallbackQuery):
     lib_search = LibgenSearch()
     logging.info(metadata)
-    best =[]
     if metadata.Author:
         #filters =  {"Author": metadata.Author}
         filters = {"Language": "English"}
@@ -63,11 +62,13 @@ async  def search_book(metadata: Book,telegram_log:CallbackQuery):
         results = lib_search.search_title(metadata.Title)
     pprint.pprint(results)
     best = find_best_match(metadata, results)
-    while not best:
-        await telegram_log.answer("Performing advanced query 💪")
-        isbns=await alternative_search(f"{metadata.Title}")
+    while  best == None:
+        await telegram_log.answer(text="Performing advanced query 💪")
+        print("advanced")
+        isbns=await alternative_search(metadata.Title,metadata.Author)
         results =[]
         for isbn in isbns:
+            print(isbn)
             results .extend(lib_search.search_title(isbn))
         pprint.pprint(results)
         best = find_best_match(metadata, results)
@@ -138,8 +139,8 @@ def openlibrary_lookup(book: Book):
 
 
 
-def alternative_search(query):
-    data=api_query(query)
+def alternative_search(title,author):
+    data=api_query(title,author)
     return  data
 
 
