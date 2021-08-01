@@ -56,7 +56,7 @@ async  def search_book(metadata: Book,telegram_log:CallbackQuery):
         filters = {"Language": "English"}
 
         results = lib_search.search_title_filtered(
-            f"{metadata.Title}", filters, exact_match=False
+            f"{metadata.Title} {metadata.subtitle}", filters, exact_match=False
         )
     else:
         results = lib_search.search_title(metadata.Title)
@@ -65,7 +65,7 @@ async  def search_book(metadata: Book,telegram_log:CallbackQuery):
     while  best == None:
         await telegram_log.answer(text="Performing advanced query 💪")
         print("advanced")
-        isbns=await alternative_search(metadata.Title,metadata.Author)
+        isbns=await alternative_search(f"{metadata.Title} {metadata.subtitle}",metadata.Author)
         results =[]
         for isbn in isbns:
             print(isbn)
