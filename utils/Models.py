@@ -34,7 +34,7 @@ class LibgenResult(Book):
         self.Year = result["Year"]
         self.Size = result["Size"]
         self.Type = result["Extension"]
-        self.Link = result["Mirror_2"]
+        self.Link = result["Mirror_1"]
         self.Pages = result["Pages"]
         self.Publisher = result["Publisher"]
 
