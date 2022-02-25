@@ -8,7 +8,10 @@ logging.basicConfig(
 
 logging.getLogger(__name__)
 
-default_keyboard =InlineKeyboardMarkup(
+
+@Client.on_message(filters.command(["start"], prefixes="/"))
+async def handle_start(_, message: Message):
+    await message.reply_text("I got books yo!", reply_markup=InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
@@ -17,10 +20,4 @@ default_keyboard =InlineKeyboardMarkup(
                 )
             ]
         ]
-    )
-
-
-
-@Client.on_message(filters.command(["start"], prefixes="/"))
-async def handle_start(_, message: Message):
-    await message.reply_text("I got books yo!", reply_markup=default_keyboard)
+    ))
