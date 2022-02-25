@@ -28,7 +28,7 @@ class Book:
 
 class LibgenResult(Book):
     def __init__(self, result: dict):
-        self.title = result["title"]
+        self.title = result["Title"]
         self.Author = result["Author"]
         self.Language = result["Language"]
         self.Year = result["Year"]
