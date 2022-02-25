@@ -31,8 +31,8 @@ session = Session()
 class Library(Base):
     __tablename__ = "library"
     id = Column(String, primary_key=True)
-    Title = Column("Title", String, index=True)
-    Subtitle = Column("Subtitle", String)
+    title = Column("Title", String, index=True)
+    subtitle = Column("Subtitle", String)
     Author = Column("Author", String)
     Isbn = Column("Isbn", String, nullable=True)
     Pages = Column("Pages", String, nullable=True)
@@ -41,9 +41,9 @@ class Library(Base):
     Categories = Column("Categories", String, nullable=True)
 
     def __init__(self, book: Book):
-        self.Title = book.Title
+        self.title = book.title
         self.id = book.id
-        self.Subtitle = Book.subtitle
+        self.subtitle = Book.subtitle
         self.Author = book.Author
         self.Isbn = book.Isbn
         self.Pages = book.Pages

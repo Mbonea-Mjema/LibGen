@@ -10,8 +10,8 @@ es = AsyncElasticsearch( hosts=[environ['elastic_url']])
 def mapper(query:Library):
     return     {
         "book_id": query.id,
-        "title": query.Title,
-        "subtitle": query.Subtitle,
+        "title": query.title,
+        "subtitle": query.subtitle,
         "isbn": query.Isbn,
         "pages": query.Pages,
         "year": query.Year,
@@ -36,7 +36,7 @@ async  def book_lookup(query:Book):
     body ={
         "query": {
             "multi_match": {
-                "query": query.Title,
+                "query": query.title,
                 "type": "bool_prefix",
                 "fields": [
                     'book_id'
