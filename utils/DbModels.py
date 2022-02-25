@@ -9,7 +9,7 @@ from dataclasses import dataclass, asdict
 @dataclass
 class Book:
     id: str = ""
-    Title: str = ""
+    title: str = ""
     subtitle: str = ""
     Author: str = ""
     Cover: str = ""
@@ -31,7 +31,7 @@ session = Session()
 class Library(Base):
     __tablename__ = "library"
     id = Column(String, primary_key=True)
-    title = Column("Title", String, index=True)
+    title = Column("title", String, index=True)
     subtitle = Column("Subtitle", String)
     Author = Column("Author", String)
     Isbn = Column("Isbn", String, nullable=True)
@@ -52,7 +52,7 @@ class Library(Base):
         self.Categories = book.Categories
 
     def __str__(self):
-        return f"{self.Author} {self.Title} {self.Categories} {self.id}"
+        return f"{self.Author} {self.title} {self.Categories} {self.id}"
 
 
 Base.metadata.create_all(engine)

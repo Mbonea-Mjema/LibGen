@@ -30,7 +30,7 @@ def find_best_match(book: Book, results):
             continue
 
         temp_scores.append(fuzz.ratio(book.Author, result["Author"]) / 100)
-        temp_scores.append(fuzz.ratio(book.Title, result["Title"]) / 100)
+        temp_scores.append(fuzz.ratio(book.title, result["Title"]) / 100)
         temp_scores.append(0.5 * fuzz.ratio(book.Pages, result["Pages"]) / 100)
         print("publisher=", book.Publisher, result["Publisher"])
         temp_scores.append(0.8 * fuzz.ratio(book.Publisher, result["Publisher"]) / 100)
@@ -55,14 +55,14 @@ async  def search_book(metadata: Book,telegram_log:CallbackQuery):
         #filters =  {"Author": metadata.Author}
         filters = {"Language": "English"}
         if metadata.subtitle:
-            bQuery=f"{metadata.Title} {metadata.subtitle}"
+            bQuery=f"{metadata.title} {metadata.subtitle}"
         else:
-               bQuery=f"{metadata.Title}"
+               bQuery=f"{metadata.title}"
         results = lib_search.search_title_filtered(
             bQuery, filters, exact_match=False
         )
     else:
-        results = lib_search.search_title(metadata.Title)
+        results = lib_search.search_title(metadata.title)
     pprint.pprint(results)
     best = find_best_match(metadata, results)
     while  best == None:
@@ -88,7 +88,7 @@ async  def search_book(metadata: Book,telegram_log:CallbackQuery):
 
 def openlibrary_lookup(book: Book):
 
-    base_url = books_api_call.format(quote(book.Title))
+    base_url = books_api_call.format(quote(book.title))
     results = get(base_url).json()["items"]
 
     books = []
@@ -125,7 +125,7 @@ def openlibrary_lookup(book: Book):
 
         book = Book(
             id=_id,
-            Title=volume["title"],
+            title=volume["title"],
             subtitle=subtitle,
             Author=",".join(volume["authors"]),
             Cover=books_api_image.format(_id),

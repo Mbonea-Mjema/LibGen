@@ -15,7 +15,7 @@ logging.getLogger(__name__)
 @dataclass
 class Book:
     id: str = ""
-    Title: str = ""
+    title: str = ""
     subtitle: str = ""
     Author: str = ""
     Cover: str = ""
@@ -28,7 +28,7 @@ class Book:
 
 class LibgenResult(Book):
     def __init__(self, result: dict):
-        self.Title = result["Title"]
+        self.title = result["title"]
         self.Author = result["Author"]
         self.Language = result["Language"]
         self.Year = result["Year"]
@@ -41,7 +41,7 @@ class LibgenResult(Book):
 
 def message_gen(book: Book):
     caption = ""
-    caption += f"📚 **Title:{book.Title}**\n\n"
+    caption += f"📚 **title:{book.title}**\n\n"
     caption += f"🧐 **Author:{book.Author}**\n"
     if book.Year:
         caption += f"📅**Year={book.Year}**\n"
@@ -52,7 +52,7 @@ def message_gen(book: Book):
 
 class SearchResult:
     def __init__(self, book: Book):
-        self.title = f"{book.Title}: {book.subtitle}"
+        self.title = f"{book.title}: {book.subtitle}"
         self.thumb = book.Cover
         reply_markup = InlineKeyboardMarkup(
             [[InlineKeyboardButton(callback_data=book.id, text="Download ⬇")]]
@@ -60,7 +60,7 @@ class SearchResult:
 
         self.article = InlineQueryResultPhoto(
             photo_url=self.thumb,
-            title=book.Title,
+            title=book.title,
             caption=message_gen(book),
             reply_markup=reply_markup,
         )

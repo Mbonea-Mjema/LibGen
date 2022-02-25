@@ -19,7 +19,7 @@ async def inline_callback(client: Client, inline_query: InlineQuery):
     search_term = inline_query.query
     inline_results = []
     if search_term:
-        results = openlibrary_lookup(Book(Title=search_term))
+        results = openlibrary_lookup(Book(title=search_term))
         books = map(SearchResult, results)
         inline_results = [i.article for i in books]
         inline_results = inline_results[:50]
@@ -40,21 +40,21 @@ async def handle_callback(client: Client, callback_query: CallbackQuery):
 
     response =await book_lookup(book_result)
     if response!= None:
-        await callback_query.edit_message_text(book_result.Title,reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton(url=channel_message_link.format(response['_id']),text=book_result.Title)]]
+        await callback_query.edit_message_text(book_result.title,reply_markup=InlineKeyboardMarkup(
+            [[InlineKeyboardButton(url=channel_message_link.format(response['_id']),text=book_result.title)]]
         ))
     else:
         books=await search_book(book_result,telegram_log=callback_query)
         if books:
             msg = ''
-            msg += f'{books.Title}\n'
+            msg += f'{books.title}\n'
             await callback_query.answer(text='Downloading the book')
             await callback_query.edit_message_text('Downloading the book')
-            path=await download_book(books.Link,file_name=f'{books.Title}',extension=books.Type,id=callback_query.data)
+            path=await download_book(books.Link,file_name=f'{books.title}',extension=books.Type,id=callback_query.data)
             await client.send_photo(chat_id=-1001347315127,photo=books_api_image.format(book_result.id),caption=message_gen(book_result))
-            message=await client.send_document(chat_id=-1001347315127,disable_notification=True,file_name=f'{book_result.Title}.{books.Type}',document=path,caption='@testlib34')
-            await callback_query.edit_message_text(book_result.Title,reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(url=channel_message_link.format(message.message_id),text=book_result.Title)]]
+            message=await client.send_document(chat_id=-1001347315127,disable_notification=True,file_name=f'{book_result.title}.{books.Type}',document=path,caption='@testlib34')
+            await callback_query.edit_message_text(book_result.title,reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton(url=channel_message_link.format(message.message_id),text=book_result.title)]]
             )
                                           )
 
