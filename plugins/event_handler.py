@@ -16,8 +16,9 @@ async def handle_start(_, message: Message):
             [
                 InlineKeyboardButton(
                     "Search For a book",
-                   
-                )
+                     switch_inline_query_current_chat="",
+                    
+                    )
             ]
         ]
     ))
